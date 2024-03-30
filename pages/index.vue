@@ -1,16 +1,15 @@
 <template>
   <div>
-    <p><NuxtLink to="/secret">Go to Secret Page</NuxtLink></p>
+    <p><NuxtLink to="/secret2">Go to Secret Page</NuxtLink></p>
     <button class="button" @click="signOut" v-if="firebaseUser">Sign out</button>
+
     <div v-if="firebaseUser">
       <client-only>
-        <pre
-          >{{ firebaseUser }}
-    </pre
-        >
+        <pre>{{ firebaseUser }}</pre>
       </client-only>
     </div>
     <div v-else>User is signed out</div>
+
   </div>
 </template>
 

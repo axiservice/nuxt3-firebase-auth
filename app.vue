@@ -8,6 +8,7 @@
           @submit="register"
           :form="registerForm"
           :message="registerMessage"
+          :messageError="registerMessageError"
           v-if="showRegisterForm"
         />
         <AuthFirebase
@@ -34,8 +35,10 @@
 const firebaseUser = useFirebaseUser();
 const showRegisterForm = ref(false);
 const registerMessage = ref();
-const registerForm = ref({ email: "", password: "" });
-const signinForm = ref({ email: "", password: "" });
+const registerMessageError = ref();
+const authFormInit = ref({ email: "", password: "" });
+const registerForm = authFormInit;
+const signinForm = authFormInit;
 
 const toggleButtonText = computed(() => {
   return showRegisterForm.value ? "Sign in" : "Register";
@@ -43,7 +46,7 @@ const toggleButtonText = computed(() => {
 
 const signin = () => {
   signInUser(signinForm.value.email, signinForm.value.password);
-  signinForm.value = { email: "", password: "" };
+  signinForm.value = authFormInit;
 };
 
 const register = async () => {
@@ -52,18 +55,23 @@ const register = async () => {
     registerForm.value.email,
     registerForm.value.password
   );
-  registerForm.value = { email: "", password: "" };
+  registerForm.value = { email: registerForm.value.email, password: "" };
 
   if (credentials) {
     registerMessage.value = `Successfully registered: ${credentials.user.email}`;
     setTimeout(() => {
       registerMessage.value = "";
     }, 3000);
+  } else {
+    registerMessageError.value = `Credenziale non valida: ${registerForm.value.email}`;
+    //registerMessage.value = `Credenziale non valida: ${registerForm.value.email}`;
   }
+
 };
 </script>
 
 <style>
 @import "https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css";
 @import "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css";
+
 </style>

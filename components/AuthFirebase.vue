@@ -34,6 +34,9 @@
     <div v-if="message" class="has-text-success p-3">
       {{ message }}
     </div>
+    <div v-if="messageError" class="has-text-danger p-3">
+      {{ messageError }}
+    </div>
 
     <button class="button is-success" @click="$emit('submit')">Submit</button>
   </div>
@@ -43,7 +46,8 @@
 const props = defineProps({
   form: Object,
   title: String,
-  message: String
+  message: String,
+  messageError: String
 });
 </script>
 
